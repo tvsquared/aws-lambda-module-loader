@@ -2,6 +2,9 @@ import importlib
 import pkgutil
 
 
+class SubModuleImporterExpection(Exception):
+    pass
+
 def import_submodules(package:str, recursive=True):
     """[summary]
 
@@ -13,8 +16,15 @@ def import_submodules(package:str, recursive=True):
         [dict]: [list of imported modules]
     """
 
-    if isinstance(package, str):
+    try:
         package = importlib.import_module(package)
+    except ModuleNotFoundError:
+        raise SubModuleImporterExpection(f'No such module: {package}')
+
+    if not hasattr(package, '__path__'):
+        # this ain't a package
+        raise SubModuleImporterExpection(f'No such package: {package}')
+
     results = {}
     for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
         full_name = package.__name__ + '.' + name
