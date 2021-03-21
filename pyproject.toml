@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-module-loader"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Bjoern Boschman <bjoern.boschman@tvsquared.com>"]
 
